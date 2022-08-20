@@ -340,50 +340,50 @@ library AaveV2Helpers {
         );
         require(
             config.underlying == expectedConfig.underlying,
-            "_validateEnsConfigsInAave() : INVALID_UNDERLYING"
+            "_validateLusdConfigsInAave() : INVALID_UNDERLYING"
         );
         require(
             config.decimals == expectedConfig.decimals,
-            "_validateEnsConfigsInAave: INVALID_DECIMALS"
+            "_validateLusdConfigsInAave: INVALID_DECIMALS"
         );
         require(
             config.ltv == expectedConfig.ltv,
-            "_validateEnsConfigsInAave: INVALID_LTV"
+            "_validateLusdConfigsInAave: INVALID_LTV"
         );
         require(
             config.liquidationThreshold == expectedConfig.liquidationThreshold,
-            "_validateEnsConfigsInAave: INVALID_LIQ_THRESHOLD"
+            "_validateLusdConfigsInAave: INVALID_LIQ_THRESHOLD"
         );
         require(
             config.liquidationBonus == expectedConfig.liquidationBonus,
-            "_validateEnsConfigsInAave: INVALID_LIQ_BONUS"
+            "_validateLusdConfigsInAave: INVALID_LIQ_BONUS"
         );
         require(
             config.reserveFactor == expectedConfig.reserveFactor,
-            "_validateEnsConfigsInAave: INVALID_RESERVE_FACTOR"
+            "_validateLusdConfigsInAave: INVALID_RESERVE_FACTOR"
         );
 
         require(
             config.usageAsCollateralEnabled ==
                 expectedConfig.usageAsCollateralEnabled,
-            "_validateEnsConfigsInAave: INVALID_USAGE_AS_COLLATERAL"
+            "_validateLusdConfigsInAave: INVALID_USAGE_AS_COLLATERAL"
         );
         require(
             config.borrowingEnabled == expectedConfig.borrowingEnabled,
-            "_validateEnsConfigsInAave: INVALID_BORROWING_ENABLED"
+            "_validateLusdConfigsInAave: INVALID_BORROWING_ENABLED"
         );
         require(
             config.stableBorrowRateEnabled ==
                 expectedConfig.stableBorrowRateEnabled,
-            "_validateEnsConfigsInAave: INVALID_STABLE_BORROW_ENABLED"
+            "_validateLusdConfigsInAave: INVALID_STABLE_BORROW_ENABLED"
         );
         require(
             config.isActive == expectedConfig.isActive,
-            "_validateEnsConfigsInAave: INVALID_IS_ACTIVE"
+            "_validateLusdConfigsInAave: INVALID_IS_ACTIVE"
         );
         require(
             config.isFrozen == expectedConfig.isFrozen,
-            "_validateEnsConfigsInAave: INVALID_IS_FROZEN"
+            "_validateLusdConfigsInAave: INVALID_IS_FROZEN"
         );
     }
 
@@ -650,6 +650,7 @@ library AaveV2Helpers {
 
     function _validateAssetSourceOnOracle(address asset, address expectedSource, string memory marketName)
         external
+        view
     {
         AaveAddressBookV2.Market memory market = AaveAddressBookV2.getMarket(marketName);
 
