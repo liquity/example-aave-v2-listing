@@ -52,7 +52,7 @@ contract LUSDListingPayload is IProposalGenericExecutor {
             INTEREST_RATE_STRATEGY
         );
 
-        AaveV2Ethereum.POOL_CONFIGURATOR.enableBorrowingOnReserve(LUSD, false);
+        AaveV2Ethereum.POOL_CONFIGURATOR.enableBorrowingOnReserve(LUSD, true);
         AaveV2Ethereum.POOL_CONFIGURATOR.setReserveFactor(LUSD, RESERVE_FACTOR);
         /*
         AaveV2Ethereum.POOL_CONFIGURATOR.configureReserveAsCollateral(
