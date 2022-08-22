@@ -28,12 +28,15 @@ contract ValidationLUSDListing is Test {
     // can't be constant for some reason
     string internal MARKET_NAME = AaveAddressBookV2.AaveV2Ethereum;
 
-    function setUp() public {}
+    LUSDListingPayload lusdPayload;
+
+    function setUp() public {
+        lusdPayload = new LUSDListingPayload();
+    }
 
     /// @dev Uses an already deployed payload on the target network
     function testProposalPostPayload() public {
-        address payload = 0xf42D0a1b03C0795021272a4793CD03dCb97581D3;
-        _testProposal(payload);
+        _testProposal(address(lusdPayload));
     }
 
     function _testProposal(address payload) internal {
