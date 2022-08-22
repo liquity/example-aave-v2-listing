@@ -208,7 +208,14 @@ library AaveV2Helpers {
         vars.configs = new ReserveConfig[](vars.reserves.length);
 
         for (uint256 i = 0; i < vars.reserves.length; i++) {
-            vars.configs[i] = _getStructReserveConfig(vars.reserves[i], marketName);
+            AaveAddressBookV2.Market memory market = AaveAddressBookV2.getMarket(marketName);
+            vars.configs[i] = _getStructReserveConfig(IProtocolDataProvider(address(market.AAVE_PROTOCOL_DATA_PROVIDER)), vars.reserves[i].tokenAddress);
+            vars.configs[i].symbol = vars.reserves[i].symbol;
+            vars.configs[i].underlying = vars.reserves[i].tokenAddress;
+            vars.configs[i].interestRateStrategy = market.POOL
+                .getReserveData(vars.reserves[i].tokenAddress)
+                .interestRateStrategyAddress;
+
             ReserveTokens memory reserveTokens = _getStructReserveTokens(
                 vars.configs[i].underlying,
                 marketName
@@ -225,13 +232,12 @@ library AaveV2Helpers {
     }
 
     /// @dev Ugly, but necessary to avoid Stack Too Deep
-    function _getStructReserveConfig(TokenData memory reserve, string memory marketName)
+    //function _getStructReserveConfig(AaveAddressBookV2.Market.IAaveProtocolDataProvider dataProvider, address tokenAddress)
+    function _getStructReserveConfig(IProtocolDataProvider dataProvider, address tokenAddress)
         internal
         view
         returns (ReserveConfig memory)
     {
-        AaveAddressBookV2.Market memory market = AaveAddressBookV2.getMarket(marketName);
-        ReserveConfig memory localConfig;
         (
             uint256 decimals,
             uint256 ltv,
@@ -243,9 +249,8 @@ library AaveV2Helpers {
             bool stableBorrowRateEnabled,
             bool isActive,
             bool isFrozen
-        ) = market.AAVE_PROTOCOL_DATA_PROVIDER.getReserveConfigurationData(reserve.tokenAddress);
-        localConfig.symbol = reserve.symbol;
-        localConfig.underlying = reserve.tokenAddress;
+        ) = dataProvider.getReserveConfigurationData(tokenAddress);
+        ReserveConfig memory localConfig;
         localConfig.decimals = decimals;
         localConfig.ltv = ltv;
         localConfig.liquidationThreshold = liquidationThreshold;
@@ -254,9 +259,6 @@ library AaveV2Helpers {
         localConfig.usageAsCollateralEnabled = usageAsCollateralEnabled;
         localConfig.borrowingEnabled = borrowingEnabled;
         localConfig.stableBorrowRateEnabled = stableBorrowRateEnabled;
-        localConfig.interestRateStrategy = market.POOL
-            .getReserveData(reserve.tokenAddress)
-            .interestRateStrategyAddress;
         localConfig.isActive = isActive;
         localConfig.isFrozen = isFrozen;
 
