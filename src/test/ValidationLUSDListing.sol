@@ -85,14 +85,14 @@ contract ValidationLUSDListing is Test {
             variableDebtToken: address(0), // Mock, as they don't get validated, because of the "dynamic" deployment on proposal execution
             stableDebtToken: address(0), // Mock, as they don't get validated, because of the "dynamic" deployment on proposal execution
             decimals: 18,
-            ltv: 5000,
-            liquidationThreshold: 6000,
-            liquidationBonus: 10800,
-            reserveFactor: 2000,
-            usageAsCollateralEnabled: true,
+            ltv: 0,
+            liquidationThreshold: 0,
+            liquidationBonus: 0,
+            reserveFactor: 1000,
+            usageAsCollateralEnabled: false,
             borrowingEnabled: true,
-            interestRateStrategy: 0xb2eD1eCE1c13455Ce9299d35D3B00358529f3Dc8,
-            stableBorrowRateEnabled: false,
+            interestRateStrategy: 0x545Ae1908B6F12e91E03B1DEC4F2e06D0570fE1b,
+            stableBorrowRateEnabled: true,
             isActive: true,
             isFrozen: false
         });
@@ -106,13 +106,13 @@ contract ValidationLUSDListing is Test {
             LUSD,
             LUSDListingPayload(payload).INTEREST_RATE_STRATEGY(),
             InterestStrategyValues({
-                excessUtilization: 55 * (AaveV2Helpers.RAY / 100),
-                optimalUtilization: 45 * (AaveV2Helpers.RAY / 100),
+                excessUtilization: 20 * (AaveV2Helpers.RAY / 100),
+                optimalUtilization: 80 * (AaveV2Helpers.RAY / 100),
                 baseVariableBorrowRate: 0,
-                stableRateSlope1: 0,
-                stableRateSlope2: 0,
-                variableRateSlope1: 7 * (AaveV2Helpers.RAY / 100),
-                variableRateSlope2: 300 * (AaveV2Helpers.RAY / 100)
+                stableRateSlope1: 2 * (AaveV2Helpers.RAY / 100),
+                stableRateSlope2: 75 * (AaveV2Helpers.RAY / 100),
+                variableRateSlope1: 4 * (AaveV2Helpers.RAY / 100),
+                variableRateSlope2: 75 * (AaveV2Helpers.RAY / 100)
             }),
             MARKET_NAME
         );
