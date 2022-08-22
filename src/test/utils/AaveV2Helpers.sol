@@ -208,7 +208,6 @@ library AaveV2Helpers {
         vars.configs = new ReserveConfig[](vars.reserves.length);
 
         for (uint256 i = 0; i < vars.reserves.length; i++) {
-            AaveAddressBookV2.Market memory market = AaveAddressBookV2.getMarket(marketName);
             vars.configs[i] = _getStructReserveConfig(IProtocolDataProvider(address(market.AAVE_PROTOCOL_DATA_PROVIDER)), vars.reserves[i].tokenAddress);
             vars.configs[i].symbol = vars.reserves[i].symbol;
             vars.configs[i].underlying = vars.reserves[i].tokenAddress;
