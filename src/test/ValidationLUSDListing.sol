@@ -197,28 +197,18 @@ contract ValidationLUSDListing is Test {
             MARKET_NAME
         );
 
-        try
-            AaveV2Helpers._borrow(
-                vm,
-                AAVE_WHALE,
-                AAVE_WHALE,
-                LUSD,
-                10 ether,
-                1,
-                AaveV2Helpers
-                    ._findReserveConfig(allReservesConfigs, "LUSD", false)
-                    .stableDebtToken,
-                MARKET_NAME
-            )
-        {
-            revert("_testProposal() : STABLE_BORROW_NOT_REVERTING");
-        } catch Error(string memory revertReason) {
-            require(
-                keccak256(bytes(revertReason)) == keccak256(bytes("12")),
-                "_testProposal() : INVALID_STABLE_REVERT_MSG"
-            );
-            vm.stopPrank();
-        }
+        AaveV2Helpers._borrow(
+            vm,
+            AAVE_WHALE,
+            AAVE_WHALE,
+            LUSD,
+            10 ether,
+            1,
+            AaveV2Helpers
+            ._findReserveConfig(allReservesConfigs, "LUSD", false)
+            .stableDebtToken,
+            MARKET_NAME
+        );
 
         AaveV2Helpers._repay(
             vm,
@@ -230,6 +220,20 @@ contract ValidationLUSDListing is Test {
             AaveV2Helpers
                 ._findReserveConfig(allReservesConfigs, "LUSD", false)
                 .variableDebtToken,
+            true,
+            MARKET_NAME
+        );
+
+        AaveV2Helpers._repay(
+            vm,
+            AAVE_WHALE,
+            AAVE_WHALE,
+            LUSD,
+            type(uint256).max,
+            1,
+            AaveV2Helpers
+                ._findReserveConfig(allReservesConfigs, "LUSD", false)
+                .stableDebtToken,
             true,
             MARKET_NAME
         );
